@@ -46,7 +46,6 @@ describe("Falling blocks", () => {
       expect(after).to.equal(before);
     });
   });
-  
 
   describe("When a block reaches the bottom", () => {
     beforeEach(() => {
