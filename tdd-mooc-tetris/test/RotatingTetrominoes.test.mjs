@@ -80,16 +80,6 @@ describe("The I shape", () => {
     );
   });
 
-  it("rotating two times to left is the same as initial state", () => {
-    expect(shape.rotateLeft().rotateLeft().toString()).to.equalShape(
-      `.....
-       .....
-       IIII.
-       .....
-       .....`
-    );
-  })
-
   it("has 2 distinct orientations", () => {
     expect(distinctOrientations(shape).size).to.equal(2);
   });

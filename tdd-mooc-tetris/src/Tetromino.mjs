@@ -1,9 +1,8 @@
-import { T_SHAPE } from "./Tetrominos/T_SHAPE.mjs"
-import { I_SHAPE } from "./Tetrominos/I_SHAPE.mjs"
-import { O_SHAPE } from "./Tetrominos/O_SHAPE.mjs"
+import { TetrominoShape } from "./TetrominoShape.mjs"
 
 export const Tetromino = {
-  T_SHAPE: new T_SHAPE,
-  I_SHAPE: new I_SHAPE,
-  O_SHAPE: new O_SHAPE
+  T_SHAPE: new TetrominoShape(4, '.T.\nTTT\n...\n'),
+  I_SHAPE: new TetrominoShape(2, '.....\n.....\nIIII.\n.....\n.....\n'),
+  O_SHAPE: new TetrominoShape(1, '.OO\n.OO\n...\n')
 }
+
