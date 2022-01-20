@@ -1,3 +1,6 @@
+import { Block } from "./Block.mjs";
+import { TetrominoShape } from "./TetrominoShape.mjs";
+
 export class Board {
   width;
   height;
@@ -19,36 +22,55 @@ export class Board {
   }
 
   drop(block) {
-    if (!this.falling) {
+    if (block instanceof TetrominoShape) {
+      const shape = block.shape.shape
+      const height = shape.length
+      const width = shape[0].length
+      const start = Math.round((this.width + 1) / 2) - (width + 3) / 2;
+      for (let i = 0; i < height; i++) {
+        for (let j = 0; j < width; j++) {
+          this.state[i][start + j] = shape[i][j] === '.' ? null : new Block(shape[i][j])
+        }
+      }
+    }
+    else if (!this.falling) {
       const middle = Math.round((this.width + 1) / 2) - 1;
       this.state[0][middle] = block;
-      this.falling = block;
+      this.falling = true;
     } else throw new Error("already falling");
   }
 
   tick() {
-    const newState = JSON.parse(JSON.stringify(this.state));
-    for (let i = 0; i < this.height; i++) {
-      for (let j = 0; j < this.width; j++) {
-        if (this.state[i][j]) {
-          if (i === this.height - 1 && this.falling === this.state[i][j]) {
-            this.falling = null;
-          } else if (i < this.height - 1) {
+    const oldState = JSON.parse(JSON.stringify(this.state))
+      .map(c => c.map(b => b ? new Block(b.color, false) : null))
+
+    const width = this.width - 1
+    const height = this.height - 1
+    for (let i = height; i >= 0; i--) {
+      for (let j = width; j >= 0; j--) {
+        const block = this.state[i][j]
+        if (block && block.falling) {
+          if (i === height) {
+            block.stop()
+            this.state[i][j] = block
+            this.falling = false
+          } else if (i < height) {
             if (this.state[i + 1][j]) {
-              this.falling = null;
+              block.stop()
+              this.state = oldState
+              this.falling = false
             } else {
-              newState[i + 1][j] = this.state[i][j];
-              newState[i][j] = null;
+              this.state[i + 1][j] = block;
+              this.state[i][j] = null;
             }
           }
         }
       }
     }
-    this.state = newState;
   }
 
   hasFalling() {
-    return this.falling ? true : false;
+    return this.falling;
   }
 
   toString() {
