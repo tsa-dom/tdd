@@ -7,27 +7,15 @@ fs.watch("src", { recursive: true }, (_event, _filename) => {
     try {
       execSync("npm run test", {
         stdio: "inherit",
-        env: { ...process.env, MAX_CHANGES: process.env.MAX_CHANGES || "100" },
+        env: { ...process.env, MAX_CHANGES: process.env.MAX_CHANGES || "1" },
       });
       console.log("Tests passed -> Commit changes");
-      execSync("git status", {
-        stdio: "inherit",
-      })
       execSync("git add .", {
-        stdio: "inherit",
-      })
-      execSync("git status", {
         stdio: "inherit",
       })
       execSync("git commit -m \"tcr: tests pass\"", {
         stdio: "inherit",
       })
-      execSync("git status", {
-        stdio: "inherit",
-      })
-      /* execSync("git commit --all --message='tcr: tests pass'", {
-        stdio: "inherit",
-      }); */
     } catch (e) {
       console.log(e)
       console.log("Test failed -> Revert changes");
