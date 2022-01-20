@@ -62,7 +62,6 @@ function createApp(database) {
       if (date && !(holiday instanceof Date) && (date instanceof Date ? date.toTemporalInstant().toZonedDateTimeISO("UTC").toPlainDate().toString() === holiday.toString() : date.toString() === holiday.toString())) return true
       if (
         date &&
-        holiday instanceof Date && date.getFullYear() === holiday.getFullYear() &&
         date.toString() === holiday.toString()
       ) {
         return true;
