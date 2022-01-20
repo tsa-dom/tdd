@@ -62,7 +62,7 @@ function createApp(database) {
     for (let row of holidays) {
       let holiday = date instanceof Date ? new Date(row.holiday) : Temporal.PlainDate.from(row.holiday);
       let tempHoliday = Temporal.PlainDate.from(row.holiday);
-      if (!(date instanceof Date) && dateTemp.toString() === tempHoliday.toString()) return true
+      if (dateTemp.toString() === tempHoliday.toString()) return true
       if (
         date.getDate() === holiday.getDate()
       ) {
