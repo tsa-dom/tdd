@@ -10,7 +10,10 @@ fs.watch("src", { recursive: true }, (_event, _filename) => {
         env: { ...process.env, MAX_CHANGES: process.env.MAX_CHANGES || "1" },
       });
       console.log("Tests passed -> Commit changes");
-      execSync("git commit --all --message='tcr: tests pass'", {
+      execSync("git add .", {
+        stdio: "inherit",
+      });
+      execSync("git commit -m 'tcr: tests pass'", {
         stdio: "inherit",
       });
     } catch (e) {
