@@ -61,6 +61,7 @@ function createApp(database) {
     const holidays = database.getHolidays();
     for (let row of holidays) {
       let holiday = new Date(row.holiday);
+      if (!(date instanceof Date)) return true
       if (
         date &&
         date.getFullYear() === holiday.getFullYear() &&
