@@ -1,4 +1,3 @@
-import "./polyfills.mjs";
 import {Temporal} from "@js-temporal/polyfill";
 import express from "express";
 
