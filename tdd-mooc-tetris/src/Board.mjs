@@ -43,7 +43,7 @@ export class Board {
   tick() {
     const oldState = JSON.parse(JSON.stringify(this.state))
       .map(c => c.map(b => b ? new Block(b.color, false) : null))
-
+      
     const width = this.width - 1
     const height = this.height - 1
     for (let i = height; i >= 0; i--) {
@@ -52,7 +52,6 @@ export class Board {
         if (block && block.falling) {
           if (i === height) {
             block.stop()
-            this.state[i][j] = block
             this.falling = false
           } else if (i < height) {
             if (this.state[i + 1][j]) {
@@ -71,6 +70,52 @@ export class Board {
 
   hasFalling() {
     return this.falling;
+  }
+
+  moveLeft() {
+    const oldState = JSON.parse(JSON.stringify(this.state))
+    const width = this.width - 1
+    const height = this.height - 1
+
+    for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+        const block = this.state[i][j]
+        if (block && block.falling) {
+          if (j > 0 && !this.state[i][j - 1]) {
+            this.state[i][j - 1] = block
+            this.state[i][j] = null
+          } else {
+            this.state = oldState
+            break
+          }
+        }
+      }
+    }
+  }
+
+  moveRight() {
+    const oldState = JSON.parse(JSON.stringify(this.state))
+    const width = this.width - 1
+    const height = this.height - 1
+
+    for (let i = 0; i < height; i++) {
+      for (let j = width; j >= 0; j--) {
+        const block = this.state[i][j]
+        if (block && block.falling) {
+          if (j < width && !this.state[i][j + 1]) {
+            this.state[i][j + 1] = block
+            this.state[i][j] = null
+          } else {
+            this.state = oldState
+            break
+          }
+        }
+      }
+    }
+  }
+
+  moveDown() {
+    this.tick()
   }
 
   toString() {
