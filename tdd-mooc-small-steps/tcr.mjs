@@ -1,4 +1,4 @@
-import { execSync } from "exec-sync";
+import { execSync } from "child_process";
 import fs from "fs";
 
 fs.watch("src", { recursive: true }, (_event, _filename) => {
