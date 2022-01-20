@@ -14,6 +14,7 @@ fs.watch("src", { recursive: true }, (_event, _filename) => {
         stdio: "inherit",
       });
     } catch (e) {
+      console.log(e)
       console.log("Test failed -> Revert changes");
       execSync("git reset --hard", { stdio: "inherit" });
     }
