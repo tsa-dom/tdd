@@ -1,4 +1,4 @@
-import "./polyfills.mjs";
+import {Temporal} from "@js-temporal/polyfill";
 import express from "express";
 
 // Refactor the following code to get rid of the legacy Date class.
