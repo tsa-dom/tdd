@@ -6,11 +6,11 @@
   "license": "ISC",
   "main": "index.mjs",
   "scripts": {
-    "start": "node .",
-    "test": "mocha --recursive test/**/*.spec.mjs",
-    "autotest": "npm test -- --watch",
-    "tcr": "node tcr.mjs",
-    "format": "prettier --write ."
+    "start": "cross-env node .",
+    "test": "cross-env mocha --recursive test/**/*.spec.mjs",
+    "autotest": "cross-env npm test -- --watch",
+    "tcr": "cross-env node tcr.mjs",
+    "format": "cross-env prettier --write ."
   },
   "mocha": {
     "parallel": true
@@ -22,6 +22,7 @@
     "@types/mocha": "^9.0.0",
     "@types/supertest": "^2.0.11",
     "chai": "^4.3.4",
+    "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "mocha": "^9.0.3",
     "prettier": "^2.3.2",
