@@ -58,6 +58,7 @@ function createApp(database) {
   function isHoliday(date) {
     if (!date) return false
     const holidays = database.getHolidays();
+    const dateTemp = date.toTemporalInstant().toZonedDateTimeISO("UTC").toPlainDate()
     for (let row of holidays) {
       let holiday = new Date(row.holiday);
       if (
