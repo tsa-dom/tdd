@@ -63,7 +63,6 @@ function createApp(database) {
       let holiday = Temporal.PlainDate.from(row.holiday);
       if (!(holiday instanceof Date) && dateTemp.toString() === holiday.toString()) return true
       if (
-        holiday instanceof Date &&
         date.toString() === holiday.toString()
       ) {
         return true;
