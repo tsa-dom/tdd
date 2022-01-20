@@ -61,7 +61,6 @@ function createApp(database) {
     const dateTemp = date instanceof Date ? date.toTemporalInstant().toZonedDateTimeISO("UTC").toPlainDate() : date
     for (let row of holidays) {
       let holiday = Temporal.PlainDate.from(row.holiday);
-      if (!(holiday instanceof Date) && dateTemp.toString() === holiday.toString()) return true
       if (
         date.toString() === holiday.toString()
       ) {
