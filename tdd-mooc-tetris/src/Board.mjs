@@ -1,46 +1,6 @@
 import { Block } from "./Block.mjs";
+import { embedTetramino, removeFullLines } from "./helpers.mjs";
 import { RotatingShape } from "./RotatingShape.mjs";
-
-const embedTetramino = (board, block) => {
-  let shape = block.toArray()
-  let { x, y, lenght } = board.falling
-  let width = board.width
-  let state = JSON.parse(JSON.stringify(board.state))
-  
-  // This functionality is for wall kick
-  if (x < 0) {
-    for (let i = x; i < 0; i++) {
-      if (!board.moveRight()) return
-    }
-    x = 0
-  }
-  if (x + lenght > width) {
-    for (let i = x; i > width - lenght; i--) {
-      if (!board.moveLeft()) return
-    }
-    x = width - lenght
-  }
-  
-  for (let i = 0; i < lenght; i++) {
-    for (let j = 0; j < lenght; j++) {
-      if (board.state[y + i][x + j]?.falling) {
-        board.state[y + i][x + j] = null
-      }
-    }
-  }
-  for (let i = 0; i < lenght; i++) {
-    for (let j = 0; j < lenght; j++) {
-      if (shape[i][j] !== '.') {
-        if (board.state[y + i][x + j]) {
-          board.state = state
-          return
-        }
-        board.state[y + i][x + j] = new Block(shape[i][j])
-      }
-    }
-  }
-  board.falling.block = block
-}
 
 export class Board {
   width;
@@ -52,20 +12,30 @@ export class Board {
     this.width = width
     this.height = height
 
-    const array = []
+    const state = []
       for (let i = 0; i <= height; i++) {
-        array.push([]);
+        state.push([]);
         for (let j = 0; j < width; j++) {
-          array[i].push(null);
+          state[i].push(null);
         }
       }
-    this.state = array;
+    this.state = state;
+  }
+
+  setState(stateStr) {
+    const state = stateStr.replaceAll(" ", "")
+      .split("\n")
+      .map(t => t.split(""))
+      .map(c => c.map(b => {
+        return b === '.' ? null : new Block(b, false) 
+      }))
+    this.state = [new Array(state[0].length).fill(null)].concat(state)
   }
 
   drop(block) {
     if (block instanceof RotatingShape) {
       const start = Math.round((this.width - 5) / 2);
-      this.falling = { x: start, y: 0, lenght: 4, block, direction: 'top' }
+      this.falling = { x: start, y: 0, length: 4, block, direction: 'top' }
       embedTetramino(this, this.falling.block)
     }
     else if (!this.falling) {
@@ -115,6 +85,8 @@ export class Board {
         }
       }
     }
+
+    if (!this.falling) removeFullLines(this.state)
   }
 
   hasFalling() {
