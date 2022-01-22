@@ -1,74 +1,41 @@
 import { expect } from "chai";
 import { RotatingShape } from "../src/RotatingShape.mjs";
 
-describe("Rotating 3x3 shape", () => {
-  const shape = new RotatingShape(
-    `ABC
-     DEF
-     GHI`
-  );
+const testShape = {
+  top: `ABCD\nEFGH\nIJKL\nMNOP`,
+  right: `MIEA\nNJFB\nOKGC\nPLHD`,
+  bottom: `PONM\nLKJI\nHGFE\nDCBA`,
+  left: `DHLP\nCGKO\nBFJN\nAEIM`,
+}
+
+describe("Rotating shape", () => {
+  const shape = new RotatingShape(testShape);
 
   it("initial orientation", () => {
     expect(shape.toString()).to.equalShape(
-      `ABC
-       DEF
-       GHI`
+      `ABCD
+       EFGH
+       IJKL
+       MNOP`
     );
   });
 
   it("can be rotated right/clockwise", () => {
     expect(shape.rotateRight().toString()).to.equalShape(
-      `GDA
-       HEB
-       IFC`
+      `MIEA
+       NJFB
+       OKGC
+       PLHD`
     );
   });
 
   it("can be rotated left/counter-clockwise", () => {
     expect(shape.rotateLeft().toString()).to.equalShape(
-      `CFI
-       BEH
-       ADG`
+      `DHLP
+       CGKO
+       BFJN
+       AEIM`
     );
   });
 });
 
-describe("Rotating 5x5 shape", () => {
-  const shape = new RotatingShape(
-    `ABCDE
-     FGHIJ
-     KLMNO
-     PQRST
-     UVWXY`
-  );
-
-  it("initial orientation", () => {
-    expect(shape.toString()).to.equalShape(
-      `ABCDE
-       FGHIJ
-       KLMNO
-       PQRST
-       UVWXY`
-    );
-  });
-
-  it("can be rotated right/clockwise", () => {
-    expect(shape.rotateRight().toString()).to.equalShape(
-      `UPKFA
-       VQLGB
-       WRMHC
-       XSNID
-       YTOJE`
-    );
-  });
-
-  it("can be rotated left/counter-clockwise", () => {
-    expect(shape.rotateLeft().toString()).to.equalShape(
-      `EJOTY
-       DINSX
-       CHMRW
-       BGLQV
-       AFKPU`
-    );
-  });
-});

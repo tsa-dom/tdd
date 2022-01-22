@@ -1,40 +1,45 @@
 export class RotatingShape {
+  direction;
   shape;
-  size;
 
-  constructor(shape) {
-    const shapeArr = shape
-      .replaceAll(" ", "")
-      .split("\n")
-      .map((t) => t.split(""));
-
-    this.shape = shapeArr;
-    this.size = shapeArr.length;
+  constructor(shape, direction) {
+    this.direction = direction ? direction : 'top'
+    this.shape = shape
   }
 
   rotateRight() {
-    let newShape = "";
-    for (let i = 0; i < this.size; i++) {
-      for (let j = this.size - 1; j >= 0; j--) {
-        newShape += this.shape[j][i];
-      }
-      if (i < this.size - 1) newShape += "\n";
+    switch (this.direction) {
+      case 'right':
+        return new RotatingShape(this.shape, 'bottom')
+      case 'bottom':
+        return new RotatingShape(this.shape, 'left')
+      case 'left':
+        return new RotatingShape(this.shape, 'top')
+      default:
+        return new RotatingShape(this.shape, 'right')
     }
-    return new RotatingShape(newShape);
   }
 
   rotateLeft() {
-    let newShape = "";
-    for (let i = this.size - 1; i >= 0; i--) {
-      for (let j = 0; j < this.size; j++) {
-        newShape += this.shape[j][i];
-      }
-      if (i > 0) newShape += "\n";
+    switch (this.direction) {
+      case 'left':
+        return new RotatingShape(this.shape, 'bottom')
+      case 'bottom':
+        return new RotatingShape(this.shape, 'right')
+      case 'right':
+        return new RotatingShape(this.shape, 'top')
+      default:
+        return new RotatingShape(this.shape, 'left')
     }
-    return new RotatingShape(newShape);
+  }
+
+  toArray() {
+    return this.shape[this.direction].replaceAll(" ", "")
+      .split("\n")
+      .map((t) => t.split(""));
   }
 
   toString() {
-    return `${this.shape.map((c) => c.join("")).join("\n")}\n`;
+    return `${this.shape[this.direction]}\n`;
   }
 }

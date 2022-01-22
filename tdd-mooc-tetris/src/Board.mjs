@@ -1,12 +1,12 @@
 import { Block } from "./Block.mjs";
-import { TetrominoShape } from "./TetrominoShape.mjs";
+import { RotatingShape } from "./RotatingShape.mjs";
 
-// This function should perform rotation mechanics for tetraminoes in the board.
-const embedTetramino = (board, shape) => {
+const embedTetramino = (board, block) => {
+  let shape = block.toArray()
   let { x, y, lenght } = board.falling
-  let width = board.state[0].length
+  let width = board.width
   let state = JSON.parse(JSON.stringify(board.state))
-
+  
   // This functionality is for wall kick
   if (x < 0) {
     for (let i = x; i < 0; i++) {
@@ -20,7 +20,7 @@ const embedTetramino = (board, shape) => {
     }
     x = width - lenght
   }
-
+  
   for (let i = 0; i < lenght; i++) {
     for (let j = 0; j < lenght; j++) {
       if (board.state[y + i][x + j]?.falling) {
@@ -28,18 +28,18 @@ const embedTetramino = (board, shape) => {
       }
     }
   }
-
   for (let i = 0; i < lenght; i++) {
     for (let j = 0; j < lenght; j++) {
-      if (shape.shape[i][j] !== '.') {
+      if (shape[i][j] !== '.') {
         if (board.state[y + i][x + j]) {
           board.state = state
           return
         }
-        board.state[y + i][x + j] = new Block(shape.shape[i][j])
+        board.state[y + i][x + j] = new Block(shape[i][j])
       }
     }
   }
+  board.falling.block = block
 }
 
 export class Board {
@@ -48,50 +48,45 @@ export class Board {
   state;
   falling;
 
-  constructor(width, height, state, falling) {
-    this.width = width;
-    this.height = height;
-    if (!state) {
-      const array = []
-      for (let i = 0; i < height; i++) {
+  constructor(width, height) {
+    this.width = width
+    this.height = height
+
+    const array = []
+      for (let i = 0; i <= height; i++) {
         array.push([]);
         for (let j = 0; j < width; j++) {
           array[i].push(null);
         }
       }
-      this.state = array;
-    } else {
-      this.state = state
-    }
-    this.falling = falling;
+    this.state = array;
   }
 
   drop(block) {
-    if (block instanceof TetrominoShape) {
-      const shape = block.shape.shape
-      const lenght = shape.length
-      const start = Math.round((this.width + 1) / 2) - (lenght + 3) / 2;
-      this.falling = {
-        x: start,
-        y: 0,
-        lenght,
-        shape: block.shape
-      }
-      embedTetramino(this, this.falling.shape)
+    if (block instanceof RotatingShape) {
+      const start = Math.round((this.width - 5) / 2);
+      this.falling = { x: start, y: 0, lenght: 4, block, direction: 'top' }
+      embedTetramino(this, this.falling.block)
     }
     else if (!this.falling) {
       const middle = Math.round((this.width + 1) / 2) - 1;
-      this.state[0][middle] = block;
+      this.state[1][middle] = block;
       this.falling = true;
     } else throw new Error("already falling");
   }
 
   rotateLeft() {
-    embedTetramino(this, this.falling.shape.rotateLeft())
+    if (this.falling.y === 0) {
+      this.moveDown()
+    }
+    embedTetramino(this, this.falling.block.rotateLeft())
   }
 
   rotateRight() {
-    embedTetramino(this, this.falling.shape.rotateRight())
+    if (this.falling.y === 0) {
+      this.moveDown()
+    }
+    embedTetramino(this, this.falling.block.rotateRight())
   }
 
   tick() {
@@ -99,7 +94,7 @@ export class Board {
       .map(c => c.map(b => b ? new Block(b.color, false) : null))
       
     const width = this.width - 1
-    const height = this.height - 1
+    const height = this.height
     for (let i = height; i >= 0; i--) {
       for (let j = width; j >= 0; j--) {
         const block = this.state[i][j]
@@ -183,6 +178,7 @@ export class Board {
 
   toString() {
     return `${this.state
+      .filter((c, i) => i !== 0)
       .map((col) =>
         col
           .map((row) => {
