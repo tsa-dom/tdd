@@ -54,4 +54,5 @@ export const removeFullLines = (board) => {
     board.splice(i, 1)
     board.unshift(new Array(board[0].length).fill(null))
   }
+  return fullLines.length
 }

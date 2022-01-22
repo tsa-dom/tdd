@@ -1,4 +1,5 @@
 import { Block } from "./Block.mjs";
+import { EventManager } from "./EventManager.mjs";
 import { embedTetramino, removeFullLines } from "./helpers.mjs";
 import { RotatingShape } from "./RotatingShape.mjs";
 
@@ -7,6 +8,7 @@ export class Board {
   height;
   state;
   falling;
+  notifier
 
   constructor(width, height) {
     this.width = width
@@ -20,6 +22,7 @@ export class Board {
         }
       }
     this.state = state;
+    this.notifier = new EventManager()
   }
 
   setState(stateStr) {
@@ -86,7 +89,9 @@ export class Board {
       }
     }
 
-    if (!this.falling) removeFullLines(this.state)
+    if (!this.falling) {
+      this.notifier.notify({ lines: removeFullLines(this.state) })
+    }
   }
 
   hasFalling() {

@@ -1,25 +1,7 @@
 import { Board } from "../src/Board.mjs";
 import { Tetromino } from "../src/Tetromino.mjs";
 import { expect } from "chai";
-
-// Some copy paste
-const stepsLeft = (board, steps) => {
-  for (let i = 0; i < steps; i++) {
-    board.moveLeft()
-  }
-}
-
-const stepsRight = (board, steps) => {
-  for (let i = 0; i < steps; i++) {
-    board.moveRight()
-  }
-}
-
-const stepsDown = (board, steps) => {
-  for (let i = 0; i < steps; i++) {
-    board.moveDown()
-  }
-}
+import { stepsDown, stepsLeft, stepsRight } from "./helpers.mjs";
 
 describe("Player controls", () => {
   let board;
