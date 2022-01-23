@@ -29,6 +29,17 @@ describe("Rotating shape", () => {
     );
   });
 
+  it("can be rotated right/clockwise four times", () => {
+    expect(shape
+      .rotateRight().rotateRight().rotateRight().rotateRight()
+      .toString()).to.equalShape(
+      `ABCD
+       EFGH
+       IJKL
+       MNOP`
+    );
+  })
+
   it("can be rotated left/counter-clockwise", () => {
     expect(shape.rotateLeft().toString()).to.equalShape(
       `DHLP
@@ -37,4 +48,15 @@ describe("Rotating shape", () => {
        AEIM`
     );
   });
+
+  it("can be rotated left/counter-clockwise four times", () => {
+    expect(shape
+      .rotateLeft().rotateLeft().rotateLeft().rotateLeft()
+      .toString()).to.equalShape(
+      `ABCD
+       EFGH
+       IJKL
+       MNOP`
+    );
+  })
 });

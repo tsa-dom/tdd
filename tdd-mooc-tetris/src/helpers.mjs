@@ -7,18 +7,8 @@ export const embedTetramino = (board, block) => {
   let state = JSON.parse(JSON.stringify(board.state));
 
   // This functionality is for wall kick
-  if (x < 0) {
-    for (let i = x; i < 0; i++) {
-      if (!board.moveRight()) return;
-    }
-    x = 0;
-  }
-  if (x + length > width) {
-    for (let i = x; i > width - length; i--) {
-      if (!board.moveLeft()) return;
-    }
-    x = width - length;
-  }
+  if (x < 0) x = 0;
+  if (x + length > width) x = width - length;
 
   for (let i = 0; i < length; i++) {
     for (let j = 0; j < length; j++) {
