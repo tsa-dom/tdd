@@ -6,7 +6,7 @@ const testShape = {
   right: `MIEA\nNJFB\nOKGC\nPLHD`,
   bottom: `PONM\nLKJI\nHGFE\nDCBA`,
   left: `DHLP\nCGKO\nBFJN\nAEIM`,
-}
+};
 
 describe("Rotating shape", () => {
   const shape = new RotatingShape(testShape);
@@ -38,4 +38,3 @@ describe("Rotating shape", () => {
     );
   });
 });
-

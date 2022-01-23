@@ -8,40 +8,42 @@ export class Board {
   height;
   state;
   falling;
-  notifier
+  notifier;
 
   constructor(width, height) {
-    this.width = width
-    this.height = height
+    this.width = width;
+    this.height = height;
 
-    const state = []
-      for (let i = 0; i <= height; i++) {
-        state.push([]);
-        for (let j = 0; j < width; j++) {
-          state[i].push(null);
-        }
+    const state = [];
+    for (let i = 0; i <= height; i++) {
+      state.push([]);
+      for (let j = 0; j < width; j++) {
+        state[i].push(null);
       }
+    }
     this.state = state;
-    this.notifier = new EventManager()
+    this.notifier = new EventManager();
   }
 
   setState(stateStr) {
-    const state = stateStr.replaceAll(" ", "")
+    const state = stateStr
+      .replaceAll(" ", "")
       .split("\n")
-      .map(t => t.split(""))
-      .map(c => c.map(b => {
-        return b === '.' ? null : new Block(b, false) 
-      }))
-    this.state = [new Array(state[0].length).fill(null)].concat(state)
+      .map((t) => t.split(""))
+      .map((c) =>
+        c.map((b) => {
+          return b === "." ? null : new Block(b, false);
+        })
+      );
+    this.state = [new Array(state[0].length).fill(null)].concat(state);
   }
 
   drop(block) {
     if (block instanceof RotatingShape) {
       const start = Math.round((this.width - 5) / 2);
-      this.falling = { x: start, y: 0, length: 4, block, direction: 'top' }
-      embedTetramino(this, this.falling.block)
-    }
-    else if (!this.falling) {
+      this.falling = { x: start, y: 0, length: 4, block, direction: "top" };
+      embedTetramino(this, this.falling.block);
+    } else if (!this.falling) {
       const middle = Math.round((this.width + 1) / 2) - 1;
       this.state[1][middle] = block;
       this.falling = true;
@@ -50,36 +52,37 @@ export class Board {
 
   rotateLeft() {
     if (this.falling.y === 0) {
-      this.moveDown()
+      this.moveDown();
     }
-    embedTetramino(this, this.falling.block.rotateLeft())
+    embedTetramino(this, this.falling.block.rotateLeft());
   }
 
   rotateRight() {
     if (this.falling.y === 0) {
-      this.moveDown()
+      this.moveDown();
     }
-    embedTetramino(this, this.falling.block.rotateRight())
+    embedTetramino(this, this.falling.block.rotateRight());
   }
 
   tick() {
-    const oldState = JSON.parse(JSON.stringify(this.state))
-      .map(c => c.map(b => b ? new Block(b.color, false) : null))
-      
-    const width = this.width - 1
-    const height = this.height
+    const oldState = JSON.parse(JSON.stringify(this.state)).map((c) =>
+      c.map((b) => (b ? new Block(b.color, false) : null))
+    );
+
+    const width = this.width - 1;
+    const height = this.height;
     for (let i = height; i >= 0; i--) {
       for (let j = width; j >= 0; j--) {
-        const block = this.state[i][j]
+        const block = this.state[i][j];
         if (block && block.falling) {
           if (i === height) {
-            block.stop()
-            this.falling = false
+            block.stop();
+            this.falling = false;
           } else if (i < height) {
             if (this.state[i + 1][j]) {
-              block.stop()
-              this.state = oldState
-              this.falling = false
+              block.stop();
+              this.state = oldState;
+              this.falling = false;
             } else {
               this.state[i + 1][j] = block;
               this.state[i][j] = null;
@@ -90,7 +93,7 @@ export class Board {
     }
 
     if (!this.falling) {
-      this.notifier.notify({ lines: removeFullLines(this.state) })
+      this.notifier.notify({ lines: removeFullLines(this.state) });
     }
   }
 
@@ -100,57 +103,57 @@ export class Board {
 
   // Returns true if success, otherwise false
   moveLeft() {
-    const oldState = JSON.parse(JSON.stringify(this.state))
-    const width = this.width - 1
-    const height = this.height - 1
-    this.falling.x -= 1
+    const oldState = JSON.parse(JSON.stringify(this.state));
+    const width = this.width - 1;
+    const height = this.height - 1;
+    this.falling.x -= 1;
 
     for (let i = 0; i <= height; i++) {
       for (let j = 0; j <= width; j++) {
-        const block = this.state[i][j]
+        const block = this.state[i][j];
         if (block && block.falling) {
           if (j > 0 && !this.state[i][j - 1]) {
-            this.state[i][j - 1] = block
-            this.state[i][j] = null
+            this.state[i][j - 1] = block;
+            this.state[i][j] = null;
           } else {
-            this.state = oldState
-            this.falling.x += 1
-            return false
+            this.state = oldState;
+            this.falling.x += 1;
+            return false;
           }
         }
       }
     }
-    return true
+    return true;
   }
 
   // Returns true if success, otherwise false
   moveRight() {
-    const oldState = JSON.parse(JSON.stringify(this.state))
-    const width = this.width - 1
-    const height = this.height - 1
-    this.falling.x += 1
-    
+    const oldState = JSON.parse(JSON.stringify(this.state));
+    const width = this.width - 1;
+    const height = this.height - 1;
+    this.falling.x += 1;
+
     for (let i = 0; i < height; i++) {
       for (let j = width; j >= 0; j--) {
-        const block = this.state[i][j]
+        const block = this.state[i][j];
         if (block && block.falling) {
           if (j < width && !this.state[i][j + 1]) {
-            this.state[i][j + 1] = block
-            this.state[i][j] = null
+            this.state[i][j + 1] = block;
+            this.state[i][j] = null;
           } else {
-            this.state = oldState
-            this.falling.x -= 1
-            return false
+            this.state = oldState;
+            this.falling.x -= 1;
+            return false;
           }
         }
       }
     }
-    return true
+    return true;
   }
 
   moveDown() {
-    this.falling ? this.falling.y += 1 : undefined
-    this.tick()
+    this.falling ? (this.falling.y += 1) : undefined;
+    this.tick();
   }
 
   toString() {

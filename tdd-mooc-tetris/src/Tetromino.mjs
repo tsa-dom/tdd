@@ -1,5 +1,13 @@
-import { RotatingShape } from "./RotatingShape.mjs"
-import { I_SHAPE, J_SHAPE, L_SHAPE, O_SHAPE, S_SHAPE, T_SHAPE, Z_SHAPE } from "./shapes.mjs"
+import { RotatingShape } from "./RotatingShape.mjs";
+import {
+  I_SHAPE,
+  J_SHAPE,
+  L_SHAPE,
+  O_SHAPE,
+  S_SHAPE,
+  T_SHAPE,
+  Z_SHAPE,
+} from "./shapes.mjs";
 
 export const Tetromino = {
   T_SHAPE: new RotatingShape(T_SHAPE),
@@ -9,4 +17,4 @@ export const Tetromino = {
   Z_SHAPE: new RotatingShape(Z_SHAPE),
   S_SHAPE: new RotatingShape(S_SHAPE),
   L_SHAPE: new RotatingShape(L_SHAPE),
-}
+};

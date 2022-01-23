@@ -1,24 +1,24 @@
-import arrayShuffle from 'array-shuffle'
+import arrayShuffle from "array-shuffle";
 
 export class ShuffleBag {
   objects;
-  bag
+  bag;
 
   constructor() {
-    this.bag = []
-    this.objects = []
+    this.bag = [];
+    this.objects = [];
   }
 
   insert(shape) {
-    this.objects = this.objects.concat(shape)
+    this.objects = this.objects.concat(shape);
   }
 
   shuffle() {
-    this.bag = arrayShuffle(this.objects)
+    this.bag = arrayShuffle(this.objects);
   }
 
   pop() {
-    if (!this.bag.length) this.shuffle()
-    return this.bag.shift()
+    if (!this.bag.length) this.shuffle();
+    return this.bag.shift();
   }
 }

@@ -6,8 +6,8 @@ export class Block {
     this.color = color;
     this.falling = falling === undefined ? true : falling;
   }
-  
+
   stop() {
-    this.falling = false
+    this.falling = false;
   }
 }
