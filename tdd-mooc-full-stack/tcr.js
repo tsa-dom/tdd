@@ -11,19 +11,19 @@ const tcr = (cmd, dir) => {
     execSync("git add .", {
       stdio: "inherit",
     })
-    /* execSync("git commit -m \"tcr: tests pass\"", {
+    execSync("git commit -m \"tcr: tests pass\"", {
       stdio: "inherit",
-    }) */
+    })
   } catch (e) {
     console.log("Test failed -> Revert changes");
     execSync("git reset", { stdio: "inherit" })
     execSync("git add *test.js", { stdio: "inherit" })
     execSync("git add *spec.js", { stdio: "inherit" })
     execSync("git add *tcr.js", { stdio: "inherit" })
-    /* execSync("git commit -m \"tcr: tests pass\"", {
+    execSync("git commit -m \"tcr: committed test files\"", {
       stdio: "inherit",
-    }) */
-    //execSync("git reset --hard", { stdio: "inherit" });
+    })
+    execSync("git reset --hard", { stdio: "inherit" });
   }
 }
 
@@ -34,7 +34,7 @@ fs.watch("frontend/src", { recursive: true }, (_event, _filename) => {
   if (current - prev > 100) {
     prev = current
     try {
-      if (_filename.includes('test.js') || _filename.includes('cypress')) return
+      if (_filename.includes('test.js') || _filename.includes('spec.js')) return
     } catch (err) {}
     tcr("test", "backend")
   }
@@ -45,7 +45,7 @@ fs.watch("backend", { recursive: true }, (_event, _filename) => {
   if (current - prev > 100) {
     prev = current
     try {
-      if (_filename.includes('test.js')) return
+      if (_filename.includes('test.js' || _filename.includes('spec.js'))) return
     } catch (err) {}
     tcr("test-ci", "frontend")
   }
