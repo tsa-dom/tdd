@@ -36,7 +36,7 @@ fs.watch("frontend/src", { recursive: true }, (_event, _filename) => {
     try {
       if (_filename.includes('test.js') || _filename.includes('spec.js')) return
     } catch (err) {}
-    tcr("test", "backend")
+    tcr("test-ci", "frontend")
   }
 })
 
@@ -47,6 +47,6 @@ fs.watch("backend", { recursive: true }, (_event, _filename) => {
     try {
       if (_filename.includes('test.js' || _filename.includes('spec.js'))) return
     } catch (err) {}
-    tcr("test-ci", "frontend")
+    tcr("test", "backend")
   }
 })
