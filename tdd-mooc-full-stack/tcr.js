@@ -1,7 +1,10 @@
 import { execSync } from "child_process"
 import fs from 'fs'
 
+const delay = s => new Promise(res => setTimeout(res, 1000 * s))
+
 const tcr = (cmd, dir) => {
+  delay(2)  
   try {
     execSync(`npm run ${cmd} --prefix ${dir}`, {
       stdio: "inherit",
@@ -16,13 +19,13 @@ const tcr = (cmd, dir) => {
     })
   } catch (e) {
     console.log("Test failed -> Revert changes");
-    execSync("git reset", { stdio: "inherit" })
+    /* execSync("git reset", { stdio: "inherit" })
     execSync("git add *test.js", { stdio: "inherit" })
     execSync("git add *spec.js", { stdio: "inherit" })
     execSync("git add *tcr.js", { stdio: "inherit" })
     execSync("git commit -m \"tcr: committed test files\"", {
       stdio: "inherit",
-    })
+    }) */
     execSync("git reset --hard", { stdio: "inherit" });
   }
 }

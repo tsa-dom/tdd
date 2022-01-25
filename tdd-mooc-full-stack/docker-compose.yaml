@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+
+  tododb:
+    image: postgres:13.2-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=secret
+    container_name: tododb
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - 5555:5432

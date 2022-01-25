@@ -5,7 +5,7 @@ Given('An user enters to the website', () => {
 })
 
 When('an user clicks a button', () => {
-  cy.get('hello-button').click()
+  cy.get('#hello-button').click()
 })
 
 Then('a text "Hello world" is fetched from the database and is displayed on the webpage', () => {
