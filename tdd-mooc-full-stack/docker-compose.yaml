@@ -12,3 +12,15 @@ services:
       - ./data:/var/lib/postgresql/data
     ports:
       - 5555:5432
+
+  testdb:
+    image: postgres:13.2-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=testdb
+    container_name: testdb
+    volumes:
+      - ./testdata:/var/lib/postgresql/data
+    ports:
+      - 5556:5432

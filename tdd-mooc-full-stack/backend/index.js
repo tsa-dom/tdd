@@ -2,25 +2,17 @@ const express = require('express')
 const cors = require('cors')
 const { Pool } = require('pg')
 const fs = require('fs')
+const credentials = require('./config')
 
 const app = express()
 app.use(cors())
 app.use(express.json())
 const port = process.env.NODE_ENV === 'test' ? 8081 : 8080
 
-const credentials = {
-  user: 'postgres',
-  password: 'secret',
-  port: 5555,
-  database: 'postgres',
-  host: '0.0.0.0'
-}
-
 const pool = new Pool(credentials)
 fs.readFile('../schema.sql', 'utf8', (err, data) => {
-  pool.query(data, () => {
-    pool.end()
-  })
+  pool.query(data, () => {})
+  pool.end()
 })
 
 app.get('/api/hello', (req, res) => {
@@ -28,8 +20,8 @@ app.get('/api/hello', (req, res) => {
   pool.query('SELECT NOW()', (err) => {
     const message = err ? 'ERROR' : 'Hello world'
     res.send(message)
-    pool.end()
   })
+  pool.end()
 })
 
 app.post('/api/todos', (req, res) => {

@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest --verbose --runInBand",
-    "autotest": "npm test -- --watch"
+    "test": "jest --verbose --runInBand --detectOpenHandles",
+    "autotest": "npm test -- --watch",
+    "coverage": "jest --coverage --verbose --runInBand --detectOpenHandles"
   },
   "author": "",
   "license": "ISC",
