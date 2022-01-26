@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "cypress": "cross-env NODE_ENV=e2e nodemon index.js",
     "test": "jest --verbose --runInBand --detectOpenHandles",
     "autotest": "npm test -- --watch",
     "coverage": "jest --coverage --verbose --runInBand --detectOpenHandles"
@@ -20,6 +21,7 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "express": "^4.17.2",
     "pg": "^8.7.1"
   }

@@ -1,6 +1,5 @@
 const Todo = require('../../models/todos')
 const { initDb, clearDb } = require('../helpers')
-const todos = new Todo()
 
 const allTodos = [
   { id: 1, name: 'Go out', done: false },
@@ -10,21 +9,25 @@ const allTodos = [
   { id: 5, name: 'Wash dishes', done: false },
 ]
 
-beforeEach(async () => await initDb())
+
+beforeEach(async () => {
+  await clearDb()
+  await new Promise(c => setTimeout(c, 50))
+  await initDb()
+  await new Promise(c => setTimeout(c, 50))
+})
 
 describe('Todo model suite', () => {
 
   it('a todo is added to a database', async () => {
-    const addedTodo = await todos.insert({ name: 'This is a wonderful todo' })
+    const addedTodo = await Todo.insert({ name: 'This is a wonderful todo' })
     expect(addedTodo.id).toBeDefined()
     expect(addedTodo).toEqual({ id: addedTodo.id, name: 'This is a wonderful todo', done: false })
   })
 
   it('todos are fetched from the database', async () => {
-    const res = await todos.get()
+    const res = await Todo.get()
     expect(res).toEqual(allTodos)
   })
 
 })
-
-afterEach(async () => await clearDb())

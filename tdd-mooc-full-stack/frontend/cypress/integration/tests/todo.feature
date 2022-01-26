@@ -2,8 +2,13 @@ Feature: Todo
 
 Scenario: As a user I want to see "Hello world" message after a button click
   Given A user enters to the website
-  When a user clicks a button
-  Then a text "Hello world" is fetched from the database and is displayed on the webpage
+  When the user clicks a button
+  Then the text "Hello world" is fetched from the database and is displayed on the webpage
+
+Scenario: As a user I'm able to view todos
+  Given A user enters to the website
+  When the user is looking at the website
+  Then the user is able to see todos
 
 #Scenario: As a user I can add a new todo item
 #  Given A user enters to the website

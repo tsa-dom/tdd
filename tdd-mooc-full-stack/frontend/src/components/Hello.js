@@ -1,11 +1,12 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import { BACKEND_URL } from '../config'
 
 const Hello = () => {
   const [hello, setHello] = useState()
 
   const getHello = async () => {
-    const res = await axios.get('http://localhost:8080/api/hello')
+    const res = await axios.get(`${BACKEND_URL}/hello`)
     setHello(res.data)
   }
 
