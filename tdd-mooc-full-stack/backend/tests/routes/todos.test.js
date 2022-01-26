@@ -11,7 +11,7 @@ const todos = [
 
 describe('Todo route suite', () => {
 
-  it('add a new todo to the api', async () => {
+  it('the api returns an added todo', async () => {
     Todo.insert.mockResolvedValueOnce({ name: 'This is a new todo', done: false })
     const res = await axios.post('http://localhost:8081/api/todos', {
       name: 'This is a new todo'
@@ -20,11 +20,22 @@ describe('Todo route suite', () => {
     expect(res.data).toEqual({ name: 'This is a new todo', done: false })
   })
 
-  it('get all todos from the api', async () => {
+  it('the api returns all todos', async () => {
     Todo.get.mockResolvedValueOnce(todos)
     const res = await axios.get('http://localhost:8081/api/todos')
     expect(res.errors).toBeUndefined()
     expect(res.data).toEqual({ todos })
+  })
+
+  it('the api returns a modified todo', async () => {
+    Todo.modify.mockResolvedValueOnce({ id: 2, name: 'Modify this todo', done: false })
+    const res = await axios.put('http://localhost:8081/api/todos', {
+      id: 2,
+      name: 'Modify this todo',
+      done: false
+    })
+    expect(res.errors).toBeUndefined()
+    expect(res.data).toEqual({ id: 2, name: 'Modify this todo', done: false })
   })
 
 })

@@ -14,10 +14,4 @@ const initDb = async () => {
   client.end()
 }
 
-const clearDb = async () => {
-  const client = await pool.connect()
-  client.query('DROP TABLE todos', () => {})
-  client.end()
-}
-
-module.exports = { initDb, clearDb }
+module.exports = { initDb }

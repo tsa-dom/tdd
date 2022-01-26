@@ -1,5 +1,5 @@
 const Todo = require('../../models/todos')
-const { initDb, clearDb } = require('../helpers')
+const { initDb } = require('../helpers')
 
 const allTodos = [
   { id: 1, name: 'Go out', done: false },
@@ -9,13 +9,7 @@ const allTodos = [
   { id: 5, name: 'Wash dishes', done: false },
 ]
 
-
-beforeEach(async () => {
-  await clearDb()
-  await new Promise(c => setTimeout(c, 50))
-  await initDb()
-  await new Promise(c => setTimeout(c, 50))
-})
+beforeEach(async () => await initDb())
 
 describe('Todo model suite', () => {
 
@@ -28,6 +22,31 @@ describe('Todo model suite', () => {
   it('todos are fetched from the database', async () => {
     const res = await Todo.get()
     expect(res).toEqual(allTodos)
+  })
+
+  it('a todo is modified in the database', async () => {
+    const modifiedTodo = await Todo.modify({ id: 2, name: 'This is going to modified', done: true })
+    expect(modifiedTodo).toEqual({ id: 2, name: 'This is going to modified', done: true })
+  })
+
+  it('a todo cannot be modified if it\'s not in the database', async () => {
+    const modifiedTodo = await Todo.modify({ name: 'This is going to modified', done: true })
+    expect(modifiedTodo).toBeUndefined()
+  })
+
+  it('a todo cannot be modified if undefiend is given', async () => {
+    const modifiedTodo = await Todo.modify()
+    expect(modifiedTodo).toBeUndefined()
+  })
+
+  it('a todo is modified partly if some fields are missing', async () => {
+    const modifiedTodo = await Todo.modify({ id: 2, done: true })
+    expect(modifiedTodo).toEqual({ id: 2, name: 'Do homework', done: true })
+  })
+
+  it('a todo is not modified if only id is specified', async () => {
+    const modifiedTodo = await Todo.modify({ id: 2 })
+    expect(modifiedTodo).toEqual({ id: 2, name: 'Do homework', done: false })
   })
 
 })

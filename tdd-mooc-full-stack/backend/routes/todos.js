@@ -12,4 +12,9 @@ router.post('/todos', async (req, res) => {
   res.send(addedTodo)
 })
 
+router.put('/todos', async (req, res) => {
+  const modifiedTodo = await Todo.modify({ ...req.body })
+  res.send(modifiedTodo)
+})
+
 module.exports = router
