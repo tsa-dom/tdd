@@ -1,13 +1,13 @@
 import React from 'react'
 import Hello from './components/Hello'
-import TodoList from './components/TodoList'
+import Todos from './components/Todos'
 import './App.css'
 
 const App = () => {
   return (
     <>
       <Hello />
-      <TodoList />
+      <Todos />
     </>
   )
 }

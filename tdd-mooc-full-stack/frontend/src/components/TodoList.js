@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { getTodos } from '../services/todos'
+import React from 'react'
 
-const TodoList = () => {
-  const [todos, setTodos] = useState([])
-
-  useEffect(async () => {
-    const fetchedTodos = await getTodos()
-    setTodos(fetchedTodos)
-  }, [])
+const TodoList = ({ todos=[] }) => {
 
   return (
     <div id='todo-list'>
-      <h1>Todos</h1>
-      <div style={{ marginLeft: 50 }}>
-        {todos && todos.map(todo => <li key={todo.id}>{todo.name}</li>)}
-      </div>
+      {todos.map(todo => <li key={todo.id}>{todo.name}</li>)}
     </div>
   )
 }
