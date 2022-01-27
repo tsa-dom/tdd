@@ -16,7 +16,11 @@ fs.readFile('../schema.sql', 'utf8', (err, data) => {
   pool.end()
 })
 
-app.use('/api', [todoRouter, helloRouter])
+app.use('/api', todoRouter)
+const mode = process.env.NODE_ENV
+if (mode === 'test' || mode === 'e2e') {
+  app.use('/api', helloRouter)
+}
 
 const server = app.listen(port, () => {
   console.log(`Server is listening on port ${port}`)

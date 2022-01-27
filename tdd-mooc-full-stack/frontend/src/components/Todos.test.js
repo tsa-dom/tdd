@@ -64,7 +64,7 @@ describe('Todos', () => {
     React.useState.mockImplementation((e) => [e, e => calls.push(e)])
     todoSvc.createTodo.mockImplementation(() => ({ id: 1, name: 'todo', done: false }))
     const component = render(<Todos />)
-    fireEvent.submit(component.getByText('Create todo'))
+    fireEvent.click(component.getByText('Create todo'))
     await new Promise(c => setTimeout(c, 1000))
     expect(calls).toEqual([[{ id: 1, name: 'todo', done: false }]])
   })

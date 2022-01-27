@@ -9,12 +9,12 @@ router.get('/todos', async (req, res) => {
 
 router.post('/todos', async (req, res) => {
   const addedTodo = await Todo.insert({ ...req.body })
-  res.send(addedTodo)
+  res.send({ todo: addedTodo })
 })
 
 router.put('/todos', async (req, res) => {
   const modifiedTodo = await Todo.modify({ ...req.body })
-  res.send(modifiedTodo)
+  res.send({ todo: modifiedTodo })
 })
 
 module.exports = router

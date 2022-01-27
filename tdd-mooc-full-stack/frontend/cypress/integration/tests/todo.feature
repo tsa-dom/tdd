@@ -10,10 +10,10 @@ Scenario: As a user I'm able to view todos
   When the user is looking at the website
   Then the user is able to see todos
 
-#Scenario: As a user I can add a new todo item
-#  Given A user enters to the website
-#  When a user writes and submits a new todo
-#  Then a todo is displayed in the list
+Scenario: As a user I can add a new todo item
+  Given A user enters to the website
+  When the user writes and submits a new todo
+  Then the todo is displayed in the list
 
 #Scenario: As a user I can rename a todo item
 #  Given A user enters to the website

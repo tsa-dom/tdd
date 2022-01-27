@@ -4,7 +4,7 @@ import TodoList from './TodoList'
 
 const Todos = () => {
   const [todos, setTodos] = useState([])
-  const [input, setInput] = useState()
+  const [input, setInput] = useState('')
 
   useEffect(async () => {
     const fetchedTodos = await getTodos()
@@ -12,8 +12,9 @@ const Todos = () => {
   }, [])
 
   const handleSubmit = async () => {
-    const addedTodo = await createTodo(input)
+    const addedTodo = await createTodo({ name: input })
     setTodos(todos.concat(addedTodo))
+    setInput('')
   }
 
   return (
@@ -21,8 +22,15 @@ const Todos = () => {
       <h1>Todos</h1>
       <TodoList todos={todos}/>
       <div>
-        <input value={input} onChange={e => setInput(e.target.value)} />
-        <button onSubmit={handleSubmit}>Create todo</button>
+        <input
+          id='add-todo-input'
+          value={input}
+          onChange={e => setInput(e.target.value)}
+        />
+        <button
+          id='add-todo-button'
+          onClick={handleSubmit}
+        >Create todo</button>
       </div>
     </div>
   )
