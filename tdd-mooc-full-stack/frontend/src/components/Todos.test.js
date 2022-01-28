@@ -5,6 +5,7 @@ import todoSvc from '../services/todos'
 import ShallowRenderer from 'react-shallow-renderer'
 import TodoList from './TodoList'
 import { render, fireEvent } from '@testing-library/react'
+import ArchiveList from './ArchiveList'
 
 const apiResponse = [
   { id: 1, name: 'Buy some milk', done: false },
@@ -40,7 +41,7 @@ describe('Todos', () => {
     const result = renderer.getRenderOutput()
     expect(result.props.children).toEqual(
       expect.arrayContaining([
-        <TodoList todos={[]} />
+        <TodoList todos={[]} setTodos={null} />
       ])
     )
   })
@@ -52,7 +53,7 @@ describe('Todos', () => {
     React.useEffect.mockImplementation(setTodos)
     renderer.render(<Todos />)
     const result = renderer.getRenderOutput()
-    expect(result.props.children).toEqual(
+    expect(result.props.children.map(p => ({ ...p, props: { todos: p.props.todos } }))).toEqual(
       expect.arrayContaining([
         <TodoList todos={todos} />
       ])
@@ -66,6 +67,16 @@ describe('Todos', () => {
     const component = render(<Todos />)
     fireEvent.click(component.getByText('Create todo'))
     await new Promise(c => setTimeout(c, 1000))
-    expect(calls).toEqual([[{ id: 1, name: 'todo', done: false }]])
+    expect(calls).toEqual(
+      expect.arrayContaining([[{ id: 1, name: 'todo', done: false }]])
+    )
+  })
+
+  it('renders ArchivedTodos if archived prop is given', () => {
+    React.useState.mockImplementation(() => [apiResponse, null])
+    const renderer = new ShallowRenderer()
+    renderer.render(<Todos archived/>)
+    const result = renderer.getRenderOutput()
+    expect(result).toEqual(<ArchiveList todos={apiResponse} />)
   })
 })

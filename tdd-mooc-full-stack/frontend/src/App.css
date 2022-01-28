@@ -5,4 +5,13 @@
 #todo-container {
   margin: 10px;
   margin-left: 30px;
+  font-size: 25px;
+}
+
+#add-todo-input {
+  font-size: 25px;
+}
+
+#add-todo-button {
+  font-size: 25px;
 }

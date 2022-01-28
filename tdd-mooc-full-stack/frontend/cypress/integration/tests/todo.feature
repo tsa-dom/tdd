@@ -15,17 +15,17 @@ Scenario: As a user I can add a new todo item
   When the user writes and submits a new todo
   Then the todo is displayed in the list
 
-#Scenario: As a user I can rename a todo item
-#  Given A user enters to the website
-#  When a user modifies the existing todo
-#  Then the todo is updated 
+Scenario: As a user I can rename a todo item
+  Given A user enters to the website
+  When the user modifies the existing todo
+  Then the todo is updated 
 
-#Scenario: As a user I can mark a todo as completed
-#  Given A user enters to the website
-#  When a user marks the todo as done
-#  Then the todo disappears from the list
+Scenario: As a user I can mark a todo as completed
+  Given A user enters to the website
+  When the user marks the todo as done
+  Then the todo disappears from the list
 
-#Scenario: As a user I can archive all completed todo items
-#  Given A user enters to the website
-#  When a user clicks archived todos button
-#  Then all the completed todos are displayed on the webpage
+Scenario: As a user I can archive all completed todo items
+  Given A user enters to the website
+  When the user clicks archived todos button
+  Then all the completed todos are displayed on the webpage

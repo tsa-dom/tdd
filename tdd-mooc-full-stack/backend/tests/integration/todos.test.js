@@ -26,7 +26,6 @@ describe('Todo integration suite', () => {
   it('the api returns all todos from db', async () => {
     const res = await axios.get('http://localhost:8081/api/todos')
     expect(res.errors).toBeUndefined()
-    console.log(res.data)
     expect(res.data).toEqual({ todos })
   })
 
