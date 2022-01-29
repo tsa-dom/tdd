@@ -1,0 +1,18 @@
+{
+  "name": "tdd-mooc-convays-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest --verbose --runInBand --detectOpenHandles",
+    "autotest": "npm test -- --watch",
+    "coverage": "jest --coverage --verbose --runInBand --detectOpenHandles"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.8.0",
+    "jest": "^27.4.7"
+  }
+}
