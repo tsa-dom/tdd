@@ -1,11 +1,13 @@
 const decodeRLE = (RLE) => {
   const data = RLE.split('!')[0].split('\n')
+    .filter(t => t[0] !== '#')
   const config = data[0]
   const x = Number(config.split(', ')[0].split(' = ')[1])
   const y = Number(config.split(', ')[1].split(' = ')[1])
   const result = [[]]
+  const board = data.filter((t, i) => i !== 0).join('')
   let count = NaN
-  for (let i of data[1]) {
+  for (let i of board) {
     if (i === '$') {
       for (let j = result[result.length - 1].length; j < x; j++) {
         result[result.length - 1].push('.')
@@ -16,6 +18,7 @@ const decodeRLE = (RLE) => {
       }
     } else if (isNaN(Number(i))) {
       if (!count) count = 1
+      count = Number(count)
       for (let j = 0; j < count; j++) {
         if (result[result.length - 1].length < x) {
           result[result.length - 1].push(i === 'o' ? 'O' : '.')
@@ -23,7 +26,8 @@ const decodeRLE = (RLE) => {
       }
       count = NaN
     } else {
-      count = Number(i)
+      if (isNaN(count)) count = i
+      else count += i
     }
   }
   for (let j = result[result.length - 1].length; j < x; j++) {
@@ -40,23 +44,15 @@ const decodeRLE = (RLE) => {
 }
 
 const encodeRLE = (array) => {
+  let result = `x = ${array[0].length}, y = ${array.length}\n`
   const parsedArray = [...array]
-  let x = 0
-  for (let i = array.length - 1; i >= 0; i--) {
+  for (let i = 0; i < array.length; i++) {
     for (let j = array[i].length - 1; j >= 0; j--) {
-      if (parsedArray[i][j] === '.') {
-        parsedArray[i].splice(-1)
-      }
+      if (parsedArray[i][j] === '.') parsedArray[i].splice(-1)
       else break
     }
-    if (x < parsedArray[i].length) {
-      x = parsedArray[i].length
-    }
-    if (i === parsedArray.length - 1 && parsedArray[i].length === 0) {
-      parsedArray.splice(-1)
-    }
   }
-  let result = `x = ${x}, y = ${parsedArray.length}\n`
+  let characters = ''
   for (let i = 0; i < parsedArray.length; i++) {
     let current
     let count = 0
@@ -65,18 +61,27 @@ const encodeRLE = (array) => {
       if (current === value) count++
       else {
         if (current) {
-          result += `${count === 1 ? '' : count}${current === 'O' ? 'o' : 'b'}`
+          characters += `${count === 1 ? '' : count}${current === 'O' ? 'o' : 'b'}`
         }
         count = 1
         current = value
       }
     }
     if (current) {
-      result += `${count === 1 ? '' : count}${current === 'O' ? 'o' : 'b'}`
+      characters += `${count === 1 ? '' : count}${current === 'O' ? 'o' : 'b'}`
     }
-    if (i < parsedArray.length - 1) result += '$'
+    if (i < parsedArray.length - 1) characters += '$'
   }
-  result += '!'
+  characters += '!'
+  let count = 0
+  for (let char of characters) {
+    count++
+    result += char
+    if (count >= 70) {
+      result += '\n'
+      count = 0
+    }
+  }
 
   return result
 }
