@@ -59,7 +59,6 @@ function createApp(database) {
     const holidays = database.getHolidays();
     for (let row of holidays) {
       let holiday = Temporal.PlainDate.from(row.holiday)
-      const isDate = date instanceof Date ? date.toTemporalInstant().toZonedDateTimeISO("UTC").toPlainDate().toString() === holiday.toString() : date.toString() === holiday.toString()
       if (
         date &&
         date instanceof Date ? date.toTemporalInstant().toZonedDateTimeISO("UTC").toPlainDate().toString() === holiday.toString() : date.toString() === holiday.toString()
