@@ -63,7 +63,7 @@ function createApp(database) {
       if (date && !(holiday instanceof Date) && isDate) return true
       if (
         date &&
-        date && !(holiday instanceof Date) && isDate
+        !(holiday instanceof Date) && isDate
       ) {
         return true;
       }
