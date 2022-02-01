@@ -62,7 +62,7 @@ function createApp(database) {
       const isDate = date instanceof Date ? date.toTemporalInstant().toZonedDateTimeISO("UTC").toPlainDate().toString() === holiday.toString() : date.toString() === holiday.toString()
       if (
         date &&
-        isDate
+        date instanceof Date ? date.toTemporalInstant().toZonedDateTimeISO("UTC").toPlainDate().toString() === holiday.toString() : date.toString() === holiday.toString()
       ) {
         return true;
       }
