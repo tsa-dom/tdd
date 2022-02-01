@@ -6,7 +6,6 @@ import express from "express";
 
 function createApp(database) {
   function calculateCost(age, type, date, baseCost) {
-    date = date instanceof Date ? date.toTemporalInstant().toZonedDateTimeISO("UTC").toPlainDate() : date
     if (type === "night") {
       return calculateCostForNightTicket(age, baseCost);
     } else {
