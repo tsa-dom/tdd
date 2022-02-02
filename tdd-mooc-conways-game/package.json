@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "jest --verbose --runInBand --detectOpenHandles",
-    "autotest": "npm test -- --watch",
+    "test": "jest --verbose --runInBand --detectOpenHandles && bash ./test/index.test.bash",
+    "helper": "jest --verbose --runInBand --detectOpenHandles",
+    "autotest": "npm run helper -- --watch",
     "coverage": "jest --coverage --verbose --runInBand --detectOpenHandles"
   },
   "author": "",
